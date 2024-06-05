@@ -1,0 +1,21 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.6
+
+      - name: Set up Kubernetes CLI
+        uses: azure/setup-kubectl@v1
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f *.yaml

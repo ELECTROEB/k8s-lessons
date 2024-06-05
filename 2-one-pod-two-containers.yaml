@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-sql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-sql
+  template:
+    metadata:
+      labels:
+        app: app-sql
+    spec:
+      containers:
+      - name: app-container
+        image: nginx
+      - name: sql-container
+        image: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "example"

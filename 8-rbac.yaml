@@ -1,0 +1,76 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: view-role
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "watch", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: create-deployments-role
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["create", "update", "patch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: admin-role
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: view-role-binding
+  namespace: default
+subjects:
+  - kind: User
+    name: user1
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: view-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: create-deployments-role-binding
+  namespace: default
+subjects:
+  - kind: User
+    name: user2
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: create-deployments-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: admin-role-binding
+  namespace: default
+subjects:
+  - kind: User
+    name: user3
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: admin-role
+  apiGroup: rbac.authorization.k8s.io
